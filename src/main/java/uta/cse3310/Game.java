@@ -59,3 +59,10 @@ public class Game {
     }
 
 }
+
+/*
+    in place of the message functionality, we will have 3 buttons, stand, bet, and deal which sends usereventtypes of their corresponding actions
+    
+    (?) Is there a convention to how JSON messages are sent and received?
+    (?) I don't quite get how JSON messages are supposed to be managed if each player can send whatever kind of JSON convention they want
+*/

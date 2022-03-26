@@ -1,8 +1,37 @@
 body {
-  background-color: lightblue;
+  background-color: #a3a29e;
 }
 
 h1 {
   color: navy;
   margin-left: 20px;
+}
+.slidercontainer {
+  width: 100%;
+}
+
+.slider {
+  width: 25%;
+}
+
+.slider::-webkit-scrollbar-thumb {
+  -webkit-appearance: none;
+  background: green;
+  cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  background: green;
+}
+
+.hidden {
+  display: none;
+}
+
+#actionButtons button {
+  padding: 10px;
+}
+
+#actionButtons > button {
+  width: 100px;
+  height: 50px;
 }

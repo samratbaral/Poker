@@ -3,12 +3,11 @@
 <meta charset="utf-8">
 
 <head>
-  <title>CSE3310 Websocket Example</title>
+  <title>Web Poker</title>
   <link rel="stylesheet" href="page_style.css">
 </head>
 
 <body>
-  <p> this is an example to show how websockets work for a class demonstration.</p>
   <p>message: <input id="send_text" type="text">
     <input type="button" name="send_button" value="send" onclick="send()">
   </p>
@@ -18,11 +17,24 @@
     </p>
   </div>
 
+  
+
   <img id="card1" src="3C.svg" style="width:auto;">
   <img id="card2" src="3D.svg" style="width:auto;">
   <img id="card3" src="3H.svg" style="width:auto;">
   <img id="card4" src="4C.svg" style="width:auto;">
   <img id="card5" src="5C.svg" style="width:auto;">
+
+  <div id="actionButtons">
+    <button id="stand" onclick="stand()">Stand</button>
+    <button id="bet" onclick="bet(0)">Bet</button>
+    <button id="fold" onclick="fold()">Fold</button>
+  </div>
+  <div id="slide" class="hidden">
+    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+    <button id="confirm" onclick="bet(1)">Confirm</button>
+    <button id="cancel" onclick="cancel()">Cancel</button>
+  </div>
 
   <div id="textbox"></div>
 </body>
@@ -114,6 +126,44 @@
       x.style.display = "none";
     }
 
+  }
+
+  function stand() {
+    var msg = {
+      event: "STAND",
+      playerID: playerID
+    };
+    connection.send(JSON.stringify(msg));
+    console.log(msg);
+  }
+
+  function bet(cond) {
+    if (cond == 1) {
+      var msg = {
+        event: "BET",
+        amount: cond,
+        playerID: playerID
+      };
+      connection.send(JSON.stringify(msg));
+      console.log(msg);
+    }
+    document.getElementById("slide").classList.remove("hidden");
+    document.getElementById("slide").classList.add("slidercontainer");
+    connection.send(JSON.stringify("Bet"));
+    console.log("Bet");
+  }
+
+  function fold() {
+    var msg = {
+      event: "FOLD",
+      playerID: playerID
+    };
+    connection.send(JSON.stringify(msg));
+    console.log(msg);
+  }
+
+  function cancel() {
+    document.getElementById("slide").classList.add("hidden");
   }
 
 </script>
