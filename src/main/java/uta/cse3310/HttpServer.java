@@ -27,7 +27,7 @@ public class HttpServer {
     }
 
     public void start() {
-        System.out.println("in httpd server start");
+        System.out.println("in https server start");
         try {
             File dir = new File(dirname);
             if (!dir.canRead())

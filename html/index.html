@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="page_style.css">
 </head>
 
+<div id ="credentials"></div>
+
 <body>
   <p>message: <input id="send_text" type="text">
     <input type="button" name="send_button" value="send" onclick="send()">
@@ -95,7 +97,7 @@
     console.log("the cardIdx is " + cardIdx)
   }
 
-
+  document.getElementById("credentials").innerHTML='ID:'+playerID+'\n'+name;
 
   function rangeSlide(value) {
     document.getElementById("rangeValue").innerHTML = value;
@@ -105,6 +107,8 @@
 
     var msg = {
       text: document.getElementById("send_text").value,
+      playerID: playerID,
+      name: name
     };
     connection.send(JSON.stringify(msg));
     console.log(JSON.stringify(msg));
@@ -119,7 +123,7 @@
     name = document.getElementById("sendName").value;
     connection.send(JSON.stringify(msg));
     console.log(JSON.stringify(msg));
-
+    document.getElementById("credentials").innerHTML='ID:'+playerID+'\n'+name;
 
     // this shows how to hid html elements.
     // like when the name is entered
@@ -150,7 +154,8 @@
       var msg = {
         event: "BET",
         amount: cond,
-        playerID: playerID
+        playerID: playerID,
+        name: name
       };
       connection.send(JSON.stringify(msg));
       console.log(msg);
@@ -166,7 +171,8 @@
   function fold() {
     var msg = {
       event: "FOLD",
-      playerID: playerID
+      playerID: playerID,
+      name: name
     };
     connection.send(JSON.stringify(msg));
     console.log(msg);
