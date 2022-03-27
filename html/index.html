@@ -31,8 +31,9 @@
     <button id="fold" onclick="fold()">Fold</button>
   </div>
   <div id="slide" class="hidden">
-    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-    <button id="confirm" onclick="bet(1)">Confirm</button>
+    <span id="rangeValue">1</span>
+    <input type="range" id="slider" min="1" max="100" value="0" class="slider" id="myRange" onchange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)">
+    <button id="confirm" onclick="bet(slider.value)">Confirm</button>
     <button id="cancel" onclick="cancel()">Cancel</button>
   </div>
 
@@ -54,6 +55,7 @@
 
   var cardIdx = 0;
   var playerID = 0;
+  var name = "Player " + (playerID+1);
 
   connection.onmessage = function (evt) {
     var msg;
@@ -95,6 +97,10 @@
 
 
 
+  function rangeSlide(value) {
+    document.getElementById("rangeValue").innerHTML = value;
+  }
+
   function send() {
 
     var msg = {
@@ -108,8 +114,9 @@
     var msg = {
       event: "NAME",
       name: document.getElementById("sendName").value,
-      playerID: playerID
+      playerID: playerID,
     };
+    name = document.getElementById("sendName").value;
     connection.send(JSON.stringify(msg));
     console.log(JSON.stringify(msg));
 
@@ -131,14 +138,15 @@
   function stand() {
     var msg = {
       event: "STAND",
-      playerID: playerID
+      playerID: playerID,
+      name: name
     };
     connection.send(JSON.stringify(msg));
     console.log(msg);
   }
 
   function bet(cond) {
-    if (cond == 1) {
+    if (cond > 0) {
       var msg = {
         event: "BET",
         amount: cond,
@@ -146,6 +154,8 @@
       };
       connection.send(JSON.stringify(msg));
       console.log(msg);
+      document.getElementById("slide").classList.add("hidden");
+      return;
     }
     document.getElementById("slide").classList.remove("hidden");
     document.getElementById("slide").classList.add("slidercontainer");
