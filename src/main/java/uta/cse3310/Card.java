@@ -1,26 +1,45 @@
 package uta.cse3310;
 
+import java.util.*;
+
 public class Card implements Comparable<Card> {
     public enum Suite {
-        HEARTS, CLUBS, DIAMONDS, SPADES
+        HEARTS, CLUBS, DIAMONDS, SPADES;
+
+        private static final List<Suite> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+        private static final int SIZE = VALUES.size();
+        private static final Random RANDOM = new Random();
+
+        public static Suite randomSuite()  {
+            return VALUES.get(RANDOM.nextInt(SIZE));
+        }
     }
 
     public enum Value {
         ACE(1),TWO(2),THREE(3),FOUR(4),FIVE(5),SIX(6),SEVEN(7),EIGHT(8),NINE(9),
-       TEN(10),JACK(11),QUEEN(12),KING(13); 
+        TEN(10),JACK(11),QUEEN(12),KING(13); 
 
-       public final int val;
-       private Value (int val)
-       {
-         this.val = val;
-       }
+        private static final List<Value> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+        private static final int SIZE = VALUES.size();
+        private static final Random RANDOM = new Random();
+
+        public static Value randomValue()  {
+            return VALUES.get(RANDOM.nextInt(SIZE));
+            }
+
+        public final int val;
+        private Value (int val)
+        {
+            this.val = val;
+        }
     }
 
     public Suite suite;
     public Value value;
 
-    public Card() {
+    // make a hashmap that gives a unique card each time card is instantiated
 
+    public Card() {
     }
 
     @Override

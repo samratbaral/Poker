@@ -44,7 +44,7 @@ public class Game {
 
     public boolean update() {
         turn++;
-        //return true;
+
         // this function is called on a periodic basis (once a second) by a timer
         // it is to allow time based situations to be handled in the game
         // if the game state is changed, it returns a true.
