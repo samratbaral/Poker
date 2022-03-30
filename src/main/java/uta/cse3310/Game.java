@@ -26,7 +26,7 @@ public class Game {
         // deletes the player from the players array
         // and does whatever else is needed to remove
         // the player from the game.
-        players.remove(playerid - 1);
+        players.remove(playerid);
     }
 
     public void processMessage(String msg) {
@@ -55,6 +55,11 @@ public class Game {
     }
 
     public void lose (int playerid) {
+
+        else if(event.event == UserEventType.FOLD)
+        {
+            removePlayer(event.playerID);
+        }
 
     }
 
