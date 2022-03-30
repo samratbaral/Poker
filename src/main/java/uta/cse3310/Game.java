@@ -42,10 +42,15 @@ public class Game {
         else if (event.event == UserEventType.FOLD) {
             turn++;
             // if the player folds, the other player wins
-        } else if (event.event == UserEventType.STAND) {
+        } 
+        else if (event.event == UserEventType.STAND) {
             turn++;
             // if the player stands, they get a choice which cards to discard and draw new ones for
             // the message should have sent the indexes of cards to be discarded and the player that sent the message
+        }
+        else if (event.event == UserEventType.BET) {
+            // not implemented for iteration 1 so there is only folding and standing for now
+            // this does not count as a turn
         }
 
     }
@@ -55,11 +60,6 @@ public class Game {
     }
 
     public void lose (int playerid) {
-
-        else if(event.event == UserEventType.FOLD)
-        {
-            removePlayer(event.playerID);
-        }
 
     }
 
