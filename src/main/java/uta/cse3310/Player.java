@@ -8,16 +8,15 @@ public class Player extends Card {
     int Id;
     String Name;
     Card Cards[];
+    int[] CardId = new int[5];
     String LastMessageToPlayer;
 
-    public static HashMap<Card.Suite, Integer> suitePile = new HashMap<>();
-    public static HashMap<Card.Value, Integer> valuePile = new HashMap<>();
+    public static HashMap<Integer, Integer> pile = new HashMap<>();
 
     public Player(int id)  {
         Id = id;
         Name = "not set";
-        // there is a lot smarter ways to do this,
-        // but at least this is obvious
+
         Cards = new Card[5];
         int set = 0;
         // dealing implementation that makes sure that specific card has not been dealt already
@@ -27,10 +26,17 @@ public class Player extends Card {
                 Cards[i] = new Card();
                 Cards[i].suite = Card.Suite.randomSuite();
                 Cards[i].value = Card.Value.randomValue();
-                set++;
+                if (!pile.containsKey(Cards[i].suite.val+Cards[i].value.val)) {
+                    pile.put(Cards[i].suite.val+Cards[i].value.val, 1);
+                    CardId[i] = Cards[i].suite.val+Cards[i].value.val;
+                    set++;
+                } else {
+                    continue;
+                }
             }
-            
-            
+        }
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Player " + Id + " has " + Cards[i].value + " of " + Cards[i].suite);
         }
         // This dealing implementation is ok for now because 2 people only cover 10 cards in one suite so it wouldn't overflow
         // But this needs to be optimized if more players are going to join

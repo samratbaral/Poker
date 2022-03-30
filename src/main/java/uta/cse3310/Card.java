@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Card implements Comparable<Card> {
     public enum Suite {
-        HEARTS, CLUBS, DIAMONDS, SPADES;
+        HEARTS(10), CLUBS(50), DIAMONDS(100), SPADES(150);
 
         private static final List<Suite> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
         private static final int SIZE = VALUES.size();
@@ -12,6 +12,11 @@ public class Card implements Comparable<Card> {
 
         public static Suite randomSuite()  {
             return VALUES.get(RANDOM.nextInt(SIZE));
+        }
+
+        public final int val;
+        private Suite (int val) {
+            this.val = val;
         }
     }
 

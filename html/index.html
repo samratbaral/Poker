@@ -21,11 +21,11 @@
 
   
 
-  <img id="card1" src="3C.svg" style="width:auto;">
-  <img id="card2" src="3D.svg" style="width:auto;">
-  <img id="card3" src="3H.svg" style="width:auto;">
-  <img id="card4" src="4C.svg" style="width:auto;">
-  <img id="card5" src="5C.svg" style="width:auto;">
+  <img id="card1" src="1J.svg" style="width:auto;">
+  <img id="card2" src="1J.svg" style="width:auto;">
+  <img id="card3" src="1J.svg" style="width:auto;">
+  <img id="card4" src="1J.svg" style="width:auto;">
+  <img id="card5" src="1J.svg" style="width:auto;">
 
   <div id="actionButtons">
     <button id="stand" onclick="stand()">Stand</button>
@@ -57,12 +57,13 @@
 
   var cardIdx = 0;
   var playerID = 0;
+  var cards = [];
   var name = "Player " + (playerID+1);
+  var cardI = ["card1", "card2", "card3", "card4", "card5"];
 
   connection.onmessage = function (evt) {
     var msg;
     msg = evt.data;
-
     console.log("Message received: ");
     document.getElementById("textbox").innerText = document.getElementById("textbox").innerText + '\n\n' + "Message Received" + "\n" + msg;
 
@@ -79,8 +80,15 @@
 
       playerID = obj.Id;
       console.log("player ID = " + playerID);
+      for (let i = 0; i < 5; i++) {
+        cards[i] = obj.CardId[i];
+      }
       document.getElementById("textbox").innerText =
-        document.getElementById("textbox").innerText + '\n\n' + "Player ID is " + playerID;
+      document.getElementById("textbox").innerText + '\n\n' + "Player ID is " + playerID;
+      for (let i = 0; i < 5; i++) {
+        document.getElementById(cardI[i]).src = cards[i].toString()+".svg";
+        //console.log("attempted " + cardI[i] + " " + cards[i].toString()+".svg");
+      }
     }
     else {
 
@@ -88,13 +96,17 @@
       // this will just have one card change every time a new game state comes in.
       // the term LUT means "look up table".  you will see it sometimes in code written last 
       // century.
+      /*
       cardLUT = ["3C.svg", "2B.svg", "3S.svg", "KC.svg", "6D.svg", "2J.svg", "2S.svg"];
+      
       document.getElementById("card4").src = cardLUT[cardIdx];
       cardIdx = cardIdx + 1;
-      if (cardIdx > 6)
+      if (cardIdx > 6) {
         cardIdx = 0;
+      }
+      */
     }
-    console.log("the cardIdx is " + cardIdx)
+    //console.log("the cardIdx is " + cardIdx)
   }
 
   //document.getElementById("credentials").innerHTML='ID:'+playerID+'\n'+name;
