@@ -97,7 +97,7 @@
     console.log("the cardIdx is " + cardIdx)
   }
 
-  document.getElementById("credentials").innerHTML='ID:'+playerID+'\n'+name;
+  //document.getElementById("credentials").innerHTML='ID:'+playerID+'\n'+name;
 
   function rangeSlide(value) {
     document.getElementById("rangeValue").innerHTML = value;
@@ -164,7 +164,7 @@
     }
     document.getElementById("slide").classList.remove("hidden");
     document.getElementById("slide").classList.add("slidercontainer");
-    connection.send(JSON.stringify("Bet"));
+    //connection.send(JSON.stringify({BET}));
     console.log("Bet");
   }
 

@@ -10,7 +10,7 @@ import uta.cse3310.UserEvent.UserEventType;
 public class Game {
 
     ArrayList<Player> players = new ArrayList<>();
-    int turn; // player ID that has the current turn
+    int turn = 0; // player ID that has the current turn
 
     public String exportStateAsJSON() {
         Gson gson = new Gson();
@@ -43,8 +43,8 @@ public class Game {
     }
 
     public boolean update() {
-
-
+        turn++;
+        //return true;
         // this function is called on a periodic basis (once a second) by a timer
         // it is to allow time based situations to be handled in the game
         // if the game state is changed, it returns a true.
@@ -59,10 +59,3 @@ public class Game {
     }
 
 }
-
-/*
-    in place of the message functionality, we will have 3 buttons, stand, bet, and deal which sends usereventtypes of their corresponding actions
-    
-    (?) Is there a convention to how JSON messages are sent and received?
-    (?) I don't quite get how JSON messages are supposed to be managed if each player can send whatever kind of JSON convention they want
-*/
