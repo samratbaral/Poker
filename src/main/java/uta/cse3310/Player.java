@@ -43,6 +43,32 @@ public class Player extends Card {
 
     }
 
+    // given their hand and the index of cards they want to discard
+    // draw new cards and discard the index cards for the new ones.
+    public Card[] draw(Card[] cards, int[] discard) {
+        if (discard.length == 0) {
+            return cards;
+        }
+        int set = 0;  
+        for (int i = 0; i < discard.length; i++) {
+            set = 0;
+            while (set == 0) {
+                cards[discard[i]].suite = Card.Suite.randomSuite();
+                cards[discard[i]].value = Card.Value.randomValue();
+                if (!pile.containsKey(cards[discard[i]].suite.val+cards[discard[i]].value.val)) {
+                    pile.put(cards[discard[i]].suite.val+cards[discard[i]].value.val, 1);
+                    CardId[discard[i]] = cards[discard[i]].suite.val+cards[discard[i]].value.val;
+                    set++;
+                } else {
+                    continue;
+                }
+            }
+            
+            
+        }
+        return cards;
+    }
+
     public void SetName(String N) {
         Name = N;
         LastMessageToPlayer="Welcome " + N + " to the game.";

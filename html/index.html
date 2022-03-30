@@ -19,7 +19,9 @@
     </p>
   </div>
 
-  
+  <div id="rounds">
+
+  </div>
 
   <img id="card1" src="1J.svg" style="width:auto;">
   <img id="card2" src="1J.svg" style="width:auto;">
@@ -28,15 +30,23 @@
   <img id="card5" src="1J.svg" style="width:auto;">
 
   <div id="actionButtons">
-    <button id="stand" onclick="stand()">Stand</button>
+    <button id="stand" onclick="stand(0)">Stand</button>
     <button id="bet" onclick="bet(0)">Bet</button>
-    <button id="fold" onclick="fold()">Fold</button>
+    <button id="fold" onclick="fold(0)">Fold</button>
+  </div>
+  <div id="standPrompt" class="hidden">
+    <button id="Confirm" onclick="stand(1)">Confirm</button>
+    <button id="Cancel" onclick="stand(-1)">Cancel</button>
+  </div>
+  <div id="foldPrompt" class="hidden">
+    <button id="Confirm" onclick="fold(1)">Confirm</button>
+    <button id="Cancel" onclick="fold(-1)">Cancel</button>
   </div>
   <div id="slide" class="hidden">
     <span id="rangeValue">1</span>
     <input type="range" id="slider" min="1" max="100" value="0" class="slider" id="myRange" onchange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)">
     <button id="confirm" onclick="bet(slider.value)">Confirm</button>
-    <button id="cancel" onclick="cancel()">Cancel</button>
+    <button id="cancel" onclick="bet(-1)">Cancel</button>
   </div>
 
   <div id="textbox"></div>
@@ -91,7 +101,6 @@
       }
     }
     else {
-
       // process the game state
       // this will just have one card change every time a new game state comes in.
       // the term LUT means "look up table".  you will see it sometimes in code written last 
@@ -151,14 +160,30 @@
 
   }
 
-  function stand() {
-    var msg = {
-      event: "STAND",
-      playerID: playerID,
-      name: name
-    };
-    connection.send(JSON.stringify(msg));
-    console.log(msg);
+  // when stand is chosen, prompt the user to click and choose on which cards to discard, if none, just click confirm
+  function stand(cond) {
+    if (cond == 0) {
+      document.getElementById("standPrompt").classList.remove("hidden");
+      document.getElementById("bet").classList.add("hidden");
+      document.getElementById("fold").classList.add("hidden");
+    }
+    else if (cond == -1) {
+      document.getElementById("standPrompt").classList.add("hidden");
+      document.getElementById("bet").classList.remove("hidden");
+      document.getElementById("fold").classList.remove("hidden");
+    } else {
+        var msg = {
+        event: "STAND",
+        playerID: playerID,
+        name: name
+      };
+      connection.send(JSON.stringify(msg));
+      console.log(msg);
+      document.getElementById("standPrompt").classList.add("hidden");
+      document.getElementById("bet").classList.remove("hidden");
+      document.getElementById("fold").classList.remove("hidden");
+    }
+    return;
   }
 
   function bet(cond) {
@@ -172,22 +197,53 @@
       connection.send(JSON.stringify(msg));
       console.log(msg);
       document.getElementById("slide").classList.add("hidden");
+      document.getElementById("slide").classList.add("hidden");
+      document.getElementById("stand").classList.remove("hidden");
+      document.getElementById("fold").classList.remove("hidden");
       return;
     }
-    document.getElementById("slide").classList.remove("hidden");
-    document.getElementById("slide").classList.add("slidercontainer");
+    else if (cond == 0) {
+      document.getElementById("slide").classList.remove("hidden");
+      document.getElementById("slide").classList.add("slidercontainer");
+      document.getElementById("stand").classList.add("hidden");
+      document.getElementById("fold").classList.add("hidden");
+      return;
+    }
+    else if (cond == -1) {
+      document.getElementById("slide").classList.add("hidden");
+      document.getElementById("stand").classList.remove("hidden");
+      document.getElementById("fold").classList.remove("hidden");
+      return;
+    }
+    
     //connection.send(JSON.stringify({BET}));
     console.log("Bet");
   }
 
-  function fold() {
-    var msg = {
-      event: "FOLD",
-      playerID: playerID,
-      name: name
-    };
-    connection.send(JSON.stringify(msg));
-    console.log(msg);
+  function fold(cond) {
+    if (cond == 0) {
+      document.getElementById("foldPrompt").classList.remove("hidden");
+      document.getElementById("stand").classList.add("hidden");
+      document.getElementById("bet").classList.add("hidden");
+    }
+    else if (cond == -1) {
+      document.getElementById("foldPrompt").classList.add("hidden");
+      document.getElementById("stand").classList.remove("hidden");
+      document.getElementById("bet").classList.remove("hidden");
+    }
+    else {
+      var msg = {
+        event: "FOLD",
+        playerID: playerID,
+        name: name
+      };
+      connection.send(JSON.stringify(msg));
+      console.log(msg);
+      document.getElementById("foldPrompt").classList.add("hidden");
+      document.getElementById("stand").classList.remove("hidden");
+      document.getElementById("bet").classList.remove("hidden");
+    }
+    return;
   }
 
   function cancel() {

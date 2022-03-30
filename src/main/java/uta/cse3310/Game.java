@@ -39,11 +39,26 @@ public class Game {
         if (event.event == UserEventType.NAME) {
             players.get(event.playerID).SetName(event.name);
         }
+        else if (event.event == UserEventType.FOLD) {
+            turn++;
+            // if the player folds, the other player wins
+        } else if (event.event == UserEventType.STAND) {
+            turn++;
+            // if the player stands, they get a choice which cards to discard and draw new ones for
+            // the message should have sent the indexes of cards to be discarded and the player that sent the message
+        }
+
+    }
+
+    public void win(int playerid) {
+
+    }
+
+    public void lose (int playerid) {
 
     }
 
     public boolean update() {
-        turn++;
 
         // this function is called on a periodic basis (once a second) by a timer
         // it is to allow time based situations to be handled in the game
