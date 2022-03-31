@@ -7,6 +7,8 @@ import com.google.gson.GsonBuilder;
 
 import uta.cse3310.UserEvent.UserEventType;
 
+// mvn exec:java -Dexec.mainClass=uta.cse3310.WebPoker
+
 public class Game {
 
     ArrayList<Player> players = new ArrayList<>();
@@ -59,13 +61,7 @@ public class Game {
 
     }
 
-    public void win(int playerid) {
-
-    }
-
-    public void lose (int playerid) {
-
-    }
+    
 
     public boolean update() {
 

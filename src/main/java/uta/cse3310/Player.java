@@ -7,6 +7,8 @@ import java.util.*;
 public class Player extends Card {
     int Id;
     String Name;
+    boolean win = false;
+    boolean lose = false;
     Card Cards[];
     int[] CardId = new int[5];
     String LastMessageToPlayer;
@@ -67,6 +69,14 @@ public class Player extends Card {
             
         }
         return cards;
+    }
+
+    public void win() {
+        this.win = true;
+    }
+
+    public void lose () {
+        this.lose = true;
     }
 
     public void SetName(String N) {
