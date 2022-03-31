@@ -11,7 +11,7 @@ public class Game {
 
     ArrayList<Player> players = new ArrayList<>();
     int turn = 0; // player ID that has the current turn
-    int round_num = 2;
+    int round_num = 1;
 
     public String exportStateAsJSON() {
         Gson gson = new Gson();
@@ -41,11 +41,9 @@ public class Game {
             players.get(event.playerID).SetName(event.name);
         }
         else if (event.event == UserEventType.FOLD) {
-            turn++;
             // if the player folds, the other player wins
         } 
         else if (event.event == UserEventType.STAND) {
-            turn++;
             // if the player stands, they get a choice which cards to discard and draw new ones for
             // the message should have sent the indexes of cards to be discarded and the player that sent the message
         }
@@ -53,9 +51,10 @@ public class Game {
             // not implemented for iteration 1 so there is only folding and standing for now
             // this does not count as a turn
         }
-        if (turn == 2)
-        {
-            round_num = round_num + 2;
+        turn++;
+        if (turn > players.size() - 1) {
+            turn = 0;
+            round_num += 1;
         }
 
     }
@@ -82,5 +81,13 @@ public class Game {
     public Game() {
         System.out.println("creating a Game Object");
     }
+    
 
 }
+/*
+
+    TODO Implement how a player chooses and discards the cards in the draw round
+    TODO Implement how a player wins
+    TODO Integrate the Hand class's is_better_than to determine winner at showdown
+
+*/
