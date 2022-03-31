@@ -11,6 +11,7 @@ public class Game {
 
     ArrayList<Player> players = new ArrayList<>();
     int turn = 0; // player ID that has the current turn
+    int round_num = 2;
 
     public String exportStateAsJSON() {
         Gson gson = new Gson();
@@ -51,6 +52,10 @@ public class Game {
         else if (event.event == UserEventType.BET) {
             // not implemented for iteration 1 so there is only folding and standing for now
             // this does not count as a turn
+        }
+        if (turn == 2)
+        {
+            round_num = round_num + 2;
         }
 
     }
