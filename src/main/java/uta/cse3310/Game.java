@@ -43,6 +43,7 @@ public class Game {
             players.get(event.playerID).SetName(event.name);
         }
         else if (event.event == UserEventType.FOLD) {
+            players.get(event.playerID).lose();
             // if the player folds, the other player wins
         } 
         else if (event.event == UserEventType.STAND) {
