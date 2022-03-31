@@ -179,9 +179,10 @@
       };
       connection.send(JSON.stringify(msg));
       console.log(msg);
+      document.getElementById("stand").classList.add("hidden");
       document.getElementById("standPrompt").classList.add("hidden");
-      document.getElementById("bet").classList.remove("hidden");
-      document.getElementById("fold").classList.remove("hidden");
+      document.getElementById("bet").classList.add("hidden");
+      document.getElementById("fold").classList.add("hidden");
     }
     return;
   }
@@ -196,10 +197,11 @@
       };
       connection.send(JSON.stringify(msg));
       console.log(msg);
+      document.getElementById("bet").classList.add("hidden");
       document.getElementById("slide").classList.add("hidden");
       document.getElementById("slide").classList.add("hidden");
-      document.getElementById("stand").classList.remove("hidden");
-      document.getElementById("fold").classList.remove("hidden");
+      document.getElementById("stand").classList.add("hidden");
+      document.getElementById("fold").classList.add("hidden");
       return;
     }
     else if (cond == 0) {
@@ -239,9 +241,10 @@
       };
       connection.send(JSON.stringify(msg));
       console.log(msg);
+      document.getElementById("fold").classList.add("hidden");
       document.getElementById("foldPrompt").classList.add("hidden");
-      document.getElementById("stand").classList.remove("hidden");
-      document.getElementById("bet").classList.remove("hidden");
+      document.getElementById("stand").classList.add("hidden");
+      document.getElementById("bet").classList.add("hidden");
     }
     return;
   }
