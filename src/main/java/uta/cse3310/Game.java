@@ -85,6 +85,7 @@ public class Game {
 
     TODO Implement how a player chooses and discards the cards in the draw round
     TODO Implement how a player wins
+    TODO Implement that after the 4th round, it goes to a showdown
     TODO Integrate the Hand class's is_better_than to determine winner at showdown
 
 */
