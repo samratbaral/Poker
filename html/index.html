@@ -50,6 +50,7 @@
   </div>
 
   <div id="textbox"></div>
+  <div id="roundDisplay"></div>
 </body>
 
 </html>
@@ -100,7 +101,23 @@
         //console.log("attempted " + cardI[i] + " " + cards[i].toString()+".svg");
       }
     }
-    else {
+    if (obj.round_num == 1)
+    {
+      document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nBetting Round #1";
+    }
+    else if (obj.round_num == 2)
+    {
+      document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nDraw Round";
+    }
+    else if (obj.round_num == 4)
+    {
+      document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nShowdown Round";
+    }
+    else
+    {
+      document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nBetting Round #2";
+    }
+    //else {
       // process the game state
       // this will just have one card change every time a new game state comes in.
       // the term LUT means "look up table".  you will see it sometimes in code written last 
@@ -114,7 +131,7 @@
         cardIdx = 0;
       }
       */
-    }
+    //}
     //console.log("the cardIdx is " + cardIdx)
   }
 
@@ -197,11 +214,10 @@
       };
       connection.send(JSON.stringify(msg));
       console.log(msg);
-      document.getElementById("bet").classList.add("hidden");
       document.getElementById("slide").classList.add("hidden");
       document.getElementById("slide").classList.add("hidden");
-      document.getElementById("stand").classList.add("hidden");
-      document.getElementById("fold").classList.add("hidden");
+      document.getElementById("stand").classList.remove("hidden");
+      document.getElementById("fold").classList.remove("hidden");
       return;
     }
     else if (cond == 0) {
