@@ -59,6 +59,9 @@ public class Game {
             turn = 0;
             round_num += 1;
         }
+        if (round_num==4) {
+            //It is the showdown round and put the hands of both players through the is_better_than() in Hand.java
+        }
 
     }
 
