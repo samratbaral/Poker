@@ -14,6 +14,7 @@ public class Game {
     ArrayList<Player> players = new ArrayList<>();
     int turn = 0; // player ID that has the current turn
     int round_num = 1;
+    int winner_id = -1;
 
     public String exportStateAsJSON() {
         Gson gson = new Gson();
@@ -38,6 +39,8 @@ public class Game {
         Gson gson = builder.create();
         // take the string we just received, and turn it into a user event
         UserEvent event = gson.fromJson(msg, UserEvent.class);
+        int count_losses = 0;
+        int i;
 
         if (event.event == UserEventType.NAME) {
             players.get(event.playerID).SetName(event.name);
@@ -61,6 +64,24 @@ public class Game {
         }
         if (round_num==4) {
             //It is the showdown round and put the hands of both players through the is_better_than() in Hand.java
+        }
+        for(i=0;i<players.size();i++) // Count number of players who've lost
+        {
+            if(players.get(i).lose)
+            {
+                count_losses++;
+            }
+        }
+        if(count_losses == players.size() - 1) // If every player but one lost, set winner_id
+        {
+            for(i=0;i<players.size();i++)
+            {
+                if(!players.get(i).lose)
+                {
+                    players.get(i).win = true;
+                    winner_id = i;
+                }
+            }
         }
 
     }
