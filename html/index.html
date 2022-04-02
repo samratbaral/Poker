@@ -9,15 +9,17 @@
 
 <div id ="credentials"></div>
 <body>
+  <!--
   <p>message: <input id="send_text" type="text">
     <input type="button" name="send_button" value="send" onclick="send()">
   </p>
+
   <div id="nameInput">
     <p>name: <input id="sendName" type="text">
       <input type="button" name="sendName" value="Name" onclick="sendName()">
     </p>
   </div>
-
+  -->
   <div id="rounds">
 
   </div>
@@ -69,7 +71,7 @@
     <button id="Confirm" onclick="draw()">Confirm</button>
   </div>
 
-  <div id="textbox"></div>
+  <div id="textbox" class="hidden"></div>
   <div id="roundDisplay"></div>
 </body>
 
@@ -120,6 +122,8 @@
         document.getElementById(cardI[i]).src = cards[i].toString()+".svg";
         //console.log("attempted " + cardI[i] + " " + cards[i].toString()+".svg");
       }
+      name = "Player " + (playerID+1);
+      document.getElementById("credentials").innerHTML='ID:'+playerID+'\n'+name;
     } else {
       if (obj.players.length == 1 && start == 0) {
         document.getElementById("cards").classList.add("hidden");
@@ -212,6 +216,8 @@
     connection.send(JSON.stringify(msg));
     console.log(JSON.stringify(msg));
   }
+
+  /*
   function sendName() {
 
     var msg = {
@@ -237,6 +243,7 @@
     }
 
   }
+  */
 
   // when stand is chosen, prompt the user to click and choose on which cards to discard, if none, just click confirm
   function stand(cond) {
