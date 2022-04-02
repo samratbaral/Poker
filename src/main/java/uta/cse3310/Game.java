@@ -51,7 +51,7 @@ public class Game {
         Gson gson = builder.create();
         // take the string we just received, and turn it into a user event
         UserEvent event = gson.fromJson(msg, UserEvent.class);
-        int count_losses = 0;
+        //int count_losses = 0;
 
         if (event.event == UserEventType.NAME) {
             players.get(event.playerID).SetName(event.name);
@@ -68,15 +68,19 @@ public class Game {
             // if the player folds, the other player wins
         } 
         else if (event.event == UserEventType.DRAW) {
+            /*
             System.out.println("Before = ");
             for (int k = 0; k < 5; k++) {
                 System.out.println(players.get(event.playerID).CardId[k]);
             }
+            */
             players.get(event.playerID).Cards = players.get(event.playerID).draw(players.get(event.playerID).Cards, event.discard);
+            /*
             System.out.println("After = ");
             for (int k = 0; k < 5; k++) {
                 System.out.println(players.get(event.playerID).CardId[k]);
             }
+            */
             // if the player draws, they get a choice which cards to discard and draw new ones for
             // the message should have sent the indexes of cards to be discarded and the player that sent the message
         }

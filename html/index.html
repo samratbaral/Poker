@@ -8,7 +8,6 @@
 </head>
 
 <div id ="credentials"></div>
-
 <body>
   <p>message: <input id="send_text" type="text">
     <input type="button" name="send_button" value="send" onclick="send()">
@@ -23,21 +22,29 @@
 
   </div>
 
-  <img id="card1" src="1J.svg" style="width:auto;">
-  <input type="checkbox" id="c1" value="1" class="hidden">
-  <label for="c1">Card 1</label>
-  <img id="card2" src="1J.svg" style="width:auto;">
-  <input type="checkbox" id="c2" value="2" class="hidden">
-  <label for="c2">Card 2</label>
-  <img id="card3" src="1J.svg" style="width:auto;">
-  <input type="checkbox" id="c3" value="3" class="hidden">
-  <label for="c3">Card 3</label>
-  <img id="card4" src="1J.svg" style="width:auto;">
-  <input type="checkbox" id="c4" value="4" class="hidden">
-  <label for="c4">Card 4</label>
-  <img id="card5" src="1J.svg" style="width:auto;">
-  <input type="checkbox" id="c5" value="5" class="hidden">
-  <label for="c5">Card 5</label>
+  <div id="waiting">
+    <h1>
+      Waiting for more players...
+    </h1>
+  </div>
+
+  <div id="cards">
+    <img id="card1" src="1J.svg" style="width:auto;">
+    <input type="checkbox" id="c1" value="1" class="hidden">
+    <label for="c1">Card 1</label>
+    <img id="card2" src="1J.svg" style="width:auto;">
+    <input type="checkbox" id="c2" value="2" class="hidden">
+    <label for="c2">Card 2</label>
+    <img id="card3" src="1J.svg" style="width:auto;">
+    <input type="checkbox" id="c3" value="3" class="hidden">
+    <label for="c3">Card 3</label>
+    <img id="card4" src="1J.svg" style="width:auto;">
+    <input type="checkbox" id="c4" value="4" class="hidden">
+    <label for="c4">Card 4</label>
+    <img id="card5" src="1J.svg" style="width:auto;">
+    <input type="checkbox" id="c5" value="5" class="hidden">
+    <label for="c5">Card 5</label>
+  </div>
 
   <div id="actionButtons" class="hidden">
     <button id="stand" onclick="stand(0)">Stand</button>
@@ -84,6 +91,7 @@
   var cards = [];
   var name = "Player " + (playerID+1);
   var cardI = ["card1", "card2", "card3", "card4", "card5"];
+  var start = 0;
 
   connection.onmessage = function (evt) {
     var msg;
@@ -103,7 +111,7 @@
     if (!obj.players) {
 
       playerID = obj.Id;
-      console.log(" hi player ID = " + playerID);
+      console.log("player ID = " + playerID);
       for (let i = 0; i < 5; i++) {
         cards[i] = obj.CardId[i];
       }
@@ -113,9 +121,25 @@
         //console.log("attempted " + cardI[i] + " " + cards[i].toString()+".svg");
       }
     } else {
-      for (let i = 0; i < 5; i++) {
-        document.getElementById(cardI[i]).src = cards[i].toString()+".svg";
-        //console.log("attempted " + cardI[i] + " " + cards[i].toString()+".svg");
+      if (obj.players.length == 1 && start == 0) {
+        document.getElementById("cards").classList.add("hidden");
+        document.getElementById("actionButtons").classList.add("hidden");
+        return;
+      } 
+      else if (obj.players.length > 1 && start == 0) {
+        document.getElementById("cards").classList.remove("hidden");
+        document.getElementById("waiting").classList.add("hidden");
+        start++;
+      }
+      console.log(obj.players.length);
+      for (const player of obj.players) {
+        if (playerID == player.Id) {
+          for (let i = 0; i < 5; i++) {
+            var filename = player.CardId[i]+".svg";
+            //console.log("changing " + document.getElementById(cardI[i]).src + " to " + filename);
+            document.getElementById(cardI[i]).src=filename;
+          }
+        }
       }
       console.log("player ID = " + playerID + " turn = " + obj.turn);
       // Keep switching turns to make actions until rounds reach round 4 which is the showdown round
@@ -126,9 +150,14 @@
           {
             alert("Player #" + obj.winner_id + " Won!");
           }
-          if (obj.turn == playerID) {
+          if (obj.turn == playerID && obj.round_num == 1 && obj.turn == 0) {
+            document.getElementById("actionButtons").classList.remove("hidden");
+            document.getElementById("fold").classList.add("hidden");
+          }
+          else if (obj.turn == playerID) {
             document.getElementById("actionButtons").classList.remove("hidden");
           }
+          
           break;
         case 2:
           document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nDraw Round"; // Draw Round

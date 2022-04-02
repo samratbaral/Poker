@@ -48,7 +48,8 @@ public class Hand extends Card {
     {
         this.rank = findRank(this.cards);
         H.rank = findRank(H.cards);
-        //System.out.println("The rank of the first deck is " + this.rank + " and the rank of the second deck is " + H.rank + " ");
+        System.out.println("The rank of the first deck is " + this.rank + " and the rank of the second deck is " + H.rank + " ");
+        System.out.println("Comparing " + this.rank.rank + " against " + H.rank.rank);
         if (this.rank.rank > H.rank.rank)
         {
             return true;
