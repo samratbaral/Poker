@@ -51,22 +51,21 @@ public class Player extends Card {
         if (discard.length == 0) {
             return cards;
         }
+        System.out.println("length = " +discard.length);
         int set = 0;  
         for (int i = 0; i < discard.length; i++) {
             set = 0;
             while (set == 0) {
-                cards[discard[i]].suite = Card.Suite.randomSuite();
-                cards[discard[i]].value = Card.Value.randomValue();
-                if (!pile.containsKey(cards[discard[i]].suite.val+cards[discard[i]].value.val)) {
-                    pile.put(cards[discard[i]].suite.val+cards[discard[i]].value.val, 1);
-                    CardId[discard[i]] = cards[discard[i]].suite.val+cards[discard[i]].value.val;
+                cards[discard[i]-1].suite = Card.Suite.randomSuite();
+                cards[discard[i]-1].value = Card.Value.randomValue();
+                if (!pile.containsKey(cards[discard[i]-1].suite.val+cards[discard[i]-1].value.val)) {
+                    pile.put(cards[discard[i]-1].suite.val+cards[discard[i]-1].value.val, 1);
+                    CardId[discard[i]-1] = cards[discard[i]-1].suite.val+cards[discard[i]-1].value.val;
                     set++;
                 } else {
                     continue;
                 }
             }
-            
-            
         }
         return cards;
     }
