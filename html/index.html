@@ -81,7 +81,7 @@
   var connection = null;
 
   var serverUrl;
-  serverUrl ="ws://" + window.location.hostname + ":8880";
+  serverUrl ="ws://" + window.location.hostname + ":8887";
   
   connection = new WebSocket(serverUrl);
   connection.onopen = function (evt) {
@@ -125,6 +125,7 @@
       name = "Player " + (playerID+1);
       document.getElementById("credentials").innerHTML='ID:'+playerID+'\n'+name;
     } else {
+      document.getElementById("rounds").innerText = "It is Player " + (obj.turn+1) + "'s turn";
       if (obj.players.length == 1 && start == 0) {
         document.getElementById("cards").classList.add("hidden");
         document.getElementById("actionButtons").classList.add("hidden");
@@ -152,7 +153,7 @@
           document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nBetting Round #1";
           if (obj.winner_id != -1)
           {
-            alert("Player #" + obj.winner_id + " Won!");
+            alert("Player " + (obj.winner_id+1) + " Won!");
           }
           if (obj.turn == playerID && obj.round_num == 1 && obj.turn == 0) {
             document.getElementById("actionButtons").classList.remove("hidden");
@@ -164,10 +165,10 @@
           
           break;
         case 2:
-          document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nDraw Round"; // Draw Round
+          document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nDraw Round\nPlease check the cards that you would like to discard"; // Draw Round
           if (obj.winner_id != -1)
           {
-            alert("Player #" + obj.winner_id + " Won!");
+            alert("Player " + (obj.winner_id+1) + " Won!");
           }
           if (obj.turn == playerID) {
             document.getElementById("drawPrompt").classList.remove("hidden");
@@ -177,10 +178,10 @@
           }
           break;
         case 3:
-          document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nDraw Round";
+          document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nBetting Round";
           if (obj.winner_id != -1)
           {
-            alert("Player #" + obj.winner_id + " Won!");
+            alert("Player " + (obj.winner_id+1) + " Won!");
           }
           if (obj.turn == playerID) {
             document.getElementById("actionButtons").classList.remove("hidden");
@@ -190,7 +191,7 @@
           document.getElementById("roundDisplay").innerText = "\n\nCurrent Round:\nShowdown Round"; // Showdown Round
           if (obj.winner_id != -1)
           {
-            alert("Player #" + obj.winner_id + " Won!");
+            alert("Player #" + (obj.winner_id+1) + " Won!");
           }
           if (obj.turn == playerID) {
             document.getElementById("actionButtons").classList.remove("hidden");
