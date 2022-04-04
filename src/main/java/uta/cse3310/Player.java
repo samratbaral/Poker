@@ -69,13 +69,20 @@ public class Player extends Card {
         }
         return cards;
     }
-
+    
+    public thegameend(){
+	System.out.println("The Game is Ended");
+	return null;
+    }
+    
     public void win() {
         this.win = true;
+        thegameend();
     }
 
     public void lose () {
         this.lose = true;
+        thegameend();
     }
 
     public void SetName(String N) {
