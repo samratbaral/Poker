@@ -9,14 +9,39 @@ import uta.cse3310.UserEvent.UserEventType;
 import uta.cse3310.*;
 
 // mvn exec:java -Dexec.mainClass=uta.cse3310.WebPoker
-
+public Timeforplayer extends TimerTask{
+    int i = 0;
+    public void runtime()
+    {
+        System.out.println("Time Count: (" + i + ")");
+		i++;
+		if(i=10)
+			{
+				synchronized(Game.eachplayertime)
+				{
+					Game.eachplayertime.notify();
+				}
+			}
+		System.out.println("10 Sec Countdown Over");
+    }
+}
 public class Game {
 
     ArrayList<Player> players = new ArrayList<>();
     int turn = 0; // player ID that has the current turn
     int round_num = 1;
     int winner_id = -1;
-
+     public static Game eachplayertime;
+        eachplayertime = new Game();
+        Timer time = new Timer();
+        TimerTask task = new Time Timerforplayer;
+    
+        timer.schedule(task,10000); // 10 sec
+	
+     @Override
+     public void runtime(){
+        System.out.println("You Have Only 10 Sec Countdown");
+     }
     public String exportStateAsJSON() {
         Gson gson = new Gson();
         return gson.toJson(this);
@@ -52,9 +77,16 @@ public class Game {
         // take the string we just received, and turn it into a user event
         UserEvent event = gson.fromJson(msg, UserEvent.class);
         //int count_losses = 0;
-
+        int loop = 0;
+        while(loop != 1 )
+        {
+        synchronized(eachplayertime)
+        {
+         eachplayertime.wait();
+        }
         if (event.event == UserEventType.NAME) {
             players.get(event.playerID).SetName(event.name);
+            timer.cancel(); 
         }
         else if (event.event == UserEventType.FOLD) {
             players.get(event.playerID).lose();
@@ -62,6 +94,7 @@ public class Game {
                 if (i!=event.playerID) {
                     players.get(i).win=true;
                     winner_id=i;
+                    timer.cancel(); 
                     return;
                 }
             }
@@ -75,6 +108,7 @@ public class Game {
             }
             */
             players.get(event.playerID).Cards = players.get(event.playerID).draw(players.get(event.playerID).Cards, event.discard);
+            timer.cancel(); 
             /*
             System.out.println("After = ");
             for (int k = 0; k < 5; k++) {
@@ -87,7 +121,29 @@ public class Game {
         else if (event.event == UserEventType.BET) {
             // not implemented for iteration 1 so there is only folding and standing for now
             // this does not count as a turn
+             timer.cancel(); 
         }
+       else if (event.event == UserEventType.COIN) {
+		    timer.cancel(); 
+        }
+        else if (event.event == UserEventType.PASSWORD) {
+            timer.cancel(); 
+        }
+        else if (event.event == UserEventType.EXIT) {
+            players.get(event.playerID).lose();
+                for (int i = 0; i < players.size(); i++) {
+                    if (i!=event.playerID) {
+                        players.get(i).win=true;
+                        winner_id=i; // the game ends here return 0
+                        timer.cancel(); 
+                        return;
+                    }
+                } 	
+        }
+         System.out.println("Player The Timer is Ended" + task.cancel);
+        timer.cancel(); 
+        loop = 1;    
+            
         turn++;
         if (turn > players.size() - 1) {
             turn = 0;
@@ -136,7 +192,7 @@ public class Game {
             }
         }
         */
-
+    
     }
 
     
